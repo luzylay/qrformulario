@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/qrformulario/static/css/main.5dcd4bc2.css",
+    "main.js": "/qrformulario/static/js/main.8ed173d7.js",
+    "static/js/453.8b0e2328.chunk.js": "/qrformulario/static/js/453.8b0e2328.chunk.js",
+    "index.html": "/qrformulario/index.html",
+    "main.5dcd4bc2.css.map": "/qrformulario/static/css/main.5dcd4bc2.css.map",
+    "main.8ed173d7.js.map": "/qrformulario/static/js/main.8ed173d7.js.map",
+    "453.8b0e2328.chunk.js.map": "/qrformulario/static/js/453.8b0e2328.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.5dcd4bc2.css",
+    "static/js/main.8ed173d7.js"
+  ]
+}
