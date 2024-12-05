@@ -1,50 +1,106 @@
-import { useState } from 'react';
-import QRCode from 'qrcode.react';
+import { useState, useRef } from 'react';
+import { QRCodeCanvas } from 'qrcode.react';
 import './App.css';
 
 function App() {
-    const [formData, setFormData] = useState('');
+    const [formData, setFormData] = useState({
+        name: '',
+        age: '',
+        email: '',
+        password: ''
+    });
     const [qrValue, setQrValue] = useState('');
-
-    // Maneja los cambios en el formulario
+    const qrRef = useRef();
     const handleChange = (e) => {
-        setFormData(e.target.value);
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value
+        });
     };
 
-    // Genera el QR al enviar el formulario
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (formData) {
-            setQrValue(formData);
-        } else {
-            alert('Por favor ingrese datos para generar el código QR.');
-        }
+        const qrData = `Nombre: ${formData.name}, Edad: ${formData.age}, Correo: ${formData.email}`;
+        setQrValue(qrData);
+    };
+
+    const downloadQR = () => {
+        const canvas = qrRef.current.querySelector('canvas');
+        const url = canvas.toDataURL('image/png');
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'codigoQR.png';
+        link.click();
     };
 
     return (
-        <div className="App">
-            <h1>Generador de Código QR</h1>
-            <form onSubmit={handleSubmit}>
-                <label>
-                    Ingrese datos para el QR:
-                    <input
-                        type="text"
-                        value={formData}
-                        onChange={handleChange}
-                        placeholder="Texto para el QR"
-                    />
-                </label>
-                <button type="submit">Generar QR</button>
-            </form>
-
-            {qrValue && (
-                <div className="qr-code">
-                    <h2>Su Código QR:</h2>
-                    <QRCode value={qrValue} />
-                </div>
-            )}
+        <div className="container">
+            <div className="qr-section">
+                <h1>GENERANDO QR</h1>
+                <p>USO PERSONAL</p>
+                <br />
+                {qrValue && (
+                    <div ref={qrRef}>
+                        <QRCodeCanvas value={qrValue} size={200} />
+                    </div>
+                )}
+                {qrValue && (
+                    <button onClick={downloadQR}>DESCARGAR QR</button>
+                )}
+            </div>
+            <div className="form-section">
+                <h1>Crear Usuario</h1>
+                <p>Ingrese sus datos</p>
+                <form onSubmit={handleSubmit}>
+                    <label>
+                        Nombre:
+                        <input
+                            type="text"
+                            name="name"
+                            value={formData.name}
+                            onChange={handleChange}
+                            placeholder="Inserte nombre"
+                            required
+                        />
+                    </label>
+                    <label>
+                        Edad:
+                        <input
+                            type="number"
+                            name="age"
+                            value={formData.age}
+                            onChange={handleChange}
+                            placeholder="Inserte edad"
+                            required
+                        />
+                    </label>
+                    <label>
+                        Correo Electrónico:
+                        <input
+                            type="email"
+                            name="email"
+                            value={formData.email}
+                            onChange={handleChange}
+                            placeholder="hello_world@gmail.com"
+                            required
+                        />
+                    </label>
+                    <label>
+                        Contraseña:
+                        <input
+                            type="password"
+                            name="password"
+                            value={formData.password}
+                            onChange={handleChange}
+                            required
+                        />
+                    </label>
+                    <button type="submit">REGISTRARSE</button>
+                </form>
+            </div>
         </div>
     );
 }
 
 export default App;
+
